@@ -438,9 +438,12 @@ anova(fit_1)</code></pre>
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <pre class="r"><code>MSR = sum(anova(fit_1)[1:3, &#39;Sum Sq&#39;])/3
 MSE = anova(fit_1)[&#39;Residuals&#39;, &#39;Mean Sq&#39;]
-F_stats = MSR/MSE
-qf(0.95,3,44)</code></pre>
-<pre><code>## [1] 2.816466</code></pre>
+F_stats = MSR/MSE</code></pre>
+<p>For the F statistics, we got 30.0520779 which is greater than the F critical value (2.8164658). Hence we reject the null hypothesis and conclude that at significance level of 0.05, there are some estimated slope coefficients are nonzero.</p>
+</div>
+<div id="section-2" class="section level5">
+<h5>3)</h5>
+<p>Show the regression results for all estimated slope coefficients with 95% CIs. Interpret the coefficient and 95% CI associated with ‘severity of illness’.</p>
 <pre class="r"><code>summary(fit_1)</code></pre>
 <pre><code>## 
 ## Call:
@@ -462,7 +465,20 @@ qf(0.95,3,44)</code></pre>
 ## Residual standard error: 10.06 on 42 degrees of freedom
 ## Multiple R-squared:  0.6822, Adjusted R-squared:  0.6595 
 ## F-statistic: 30.05 on 3 and 42 DF,  p-value: 1.542e-10</code></pre>
-<p>For the F statistics, we got 30.0520779 which is greater than the F critical value (2.8164658). Hence we reject the null hypothesis and conclude that at significance level of 0.05, there are some predictors are nonzero.</p>
+<pre class="r"><code>confint(fit_1,level=0.95)</code></pre>
+<pre><code>##                  2.5 %      97.5 %
+## (Intercept) 121.911727 195.0707761
+## age          -1.575093  -0.7081303
+## severity     -1.434831   0.5508228
+## anxiety     -27.797859   0.8575324</code></pre>
+</div>
+<div id="section-3" class="section level5">
+<h5>4)</h5>
+<p>Obtain an interval estimate for a new patient’s satisfaction with the following characteristics: Age=35, Severity=42, Anxiety=2.1. Interpret the interval.</p>
+<pre class="r"><code>newdata = data.frame(age = 35, severity = 42, anxiety = 2.1)
+predict.lm(fit_1, newdata, interval = &quot;confidence&quot;)</code></pre>
+<pre><code>##        fit      lwr      upr
+## 1 71.68332 64.23592 79.13071</code></pre>
 </div>
 </div>
 

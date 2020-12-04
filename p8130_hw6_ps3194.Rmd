@@ -47,15 +47,24 @@ anova(fit_1)
 MSR = sum(anova(fit_1)[1:3, 'Sum Sq'])/3
 MSE = anova(fit_1)['Residuals', 'Mean Sq']
 F_stats = MSR/MSE
-qf(0.95,3,44)
-summary(fit_1)
+
 ```
-For the F statistics, we got `r F_stats` which is greater than the F critical value (`r qf(0.95,3,44)`). Hence we reject the null hypothesis and conclude that at significance level of 0.05, there are some predictors are nonzero.
+For the F statistics, we got `r F_stats` which is greater than the F critical value (`r qf(0.95,3,44)`). Hence we reject the null hypothesis and conclude that at significance level of 0.05, there are some estimated slope coefficients are nonzero.
 
 
+##### 3)
+Show the regression results for all estimated slope coefficients with 95% CIs. Interpret the coefficient and 95% CI associated with ‘severity of illness’.
 
+```{r}
+summary(fit_1)
+confint(fit_1,level=0.95)
+```
 
+##### 4)
+Obtain an interval estimate for a new patient’s satisfaction with the following characteristics: Age=35, Severity=42, Anxiety=2.1. Interpret the interval.
 
-
-
+```{r}
+newdata = data.frame(age = 35, severity = 42, anxiety = 2.1)
+predict.lm(fit_1, newdata, interval = "confidence")
+```
 
