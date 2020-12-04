@@ -143,5 +143,31 @@ No significance
 
 How does the relationship between BMI and serum estradiol change after controlling for all the other risk factors listed above? Provide the summary regression output and comment on the relationships observed for each of the predictors.
 
+```{r}
+fit_4 = lm(estradl~ factor(ethnic) + entage+ numchild + numchild + bmi, data = estradiol_df)
+summary(fit_4)
+```
+#### 3) 
+
+Now focus only the relationship between BMI and serum estradiol by ethnicity. Is there any evidence that these relationships vary for African American and Caucasian women? 
+
+##### a) 
+Use graphical displays and numerical summaries to sustain your conclusion.
+```{r}
+qplot(x = bmi, y = estradl, data = estradiol_df, color = factor(ethnic)) +
+     geom_smooth(method = "lm", se=FALSE) +
+     labs(x="bmi", y="Estradiol hormonal serum levels")
+```
+
+##### b) 
+Based on your response in part 3-a), take additional steps to quantify the relationship between
+BMI and serum estradiol by ethnicity. Comment on your findings.
+
+```{r}
+fit_5 = lm(estradl~ bmi*factor(ethnic), data = estradiol_df)
+summary(fit_5)
+anova(fit_5)
+```
+
 
 
