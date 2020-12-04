@@ -18,7 +18,7 @@ pat_satisfaction = read_csv("./data/PatSatisfaction.csv") %>%
 
 #### 1)
 
-Create a correlation matrix for all variables and interpret your findings. Focus on the correlation values between each predictor and the outcome of interest.
+**Create a correlation matrix for all variables and interpret your findings. Focus on the correlation values between each predictor and the outcome of interest.**
 
 ```{r}
 round(cor(pat_satisfaction),3)
@@ -26,10 +26,12 @@ round(cor(pat_satisfaction),3)
 # Scatter plot matrix for all variables
 pairs(pat_satisfaction)
 ```
+The estimated correlation between satisfaction and age is -0.787; between satisfaction and severity is -0.603; between satisfaction and anxiety is -0.643; between age and severity is 0.568; between age and anxiety is 0.570; between severity and anxiety is 0.671. Therefore, there are strong negative linear relationships between satisfaction(outcome) and age; between satisfaction(outcome) and severity and between satisfaction(outcome) and anxiety.
+
 
 #### 2)
 
-Fit a multiple regression model including all three predictors and test whether at least one of these variables is significant. State the hypotheses, test-statistic, decision rule and conclusion.
+**Fit a multiple regression model including all three predictors and test whether at least one of these variables is significant. State the hypotheses, test-statistic, decision rule and conclusion.**
 
 
 $$
@@ -53,12 +55,22 @@ For the F statistics, we got `r F_stats` which is greater than the F critical va
 
 
 #### 3)
-Show the regression results for all estimated slope coefficients with 95% CIs. Interpret the coefficient and 95% CI associated with ‘severity of illness’.
+**Show the regression results for all estimated slope coefficients with 95% CIs. Interpret the coefficient and 95% CI associated with ‘severity of illness’.**
 
+The formula for a(1-$\alpha$)100% confidence for the true slope is given by below:
+
+$$
+\begin{split}
+\hat{\beta_i} \pm t_{n-2,1-\alpha/2}*se(\hat{\beta_i})\\
+where \ se(\hat{\beta_i}) = \sqrt{\frac{MSE}{\sum_{j=1}^n(x_j-\bar{x})}} \\
+
+\end{split}
+$$
 ```{r}
 summary(fit_1)
 confint(fit_1,level=0.95)
 ```
+The estimated slope coefficients with 95% CIs for ‘age’: (-1.575093, -0.7081303); for ‘severity’: (-1.434831, 0.5508228); for ‘anxiety’: (-27.797859, 0.8575324). 
 
 #### 4)
 
