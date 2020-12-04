@@ -1,0 +1,61 @@
+---
+title: "p8130_hw6_ps3194"
+author: "Pangsibo Shen"
+date: "12/3/2020"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+```
+### Problem 1
+
+```{r}
+#load the data
+pat_satisfaction = read_csv("./data/PatSatisfaction.csv") %>%
+  janitor::clean_names()
+```
+
+##### 1)
+
+Create a correlation matrix for all variables and interpret your findings. Focus on the correlation values between each predictor and the outcome of interest.
+
+```{r}
+round(cor(pat_satisfaction),3)
+
+# Scatter plot matrix for all variables
+pairs(pat_satisfaction)
+```
+
+##### 2)
+
+Fit a multiple regression model including all three predictors and test whether at least one of these variables is significant. State the hypotheses, test-statistic, decision rule and conclusion.
+
+
+$$
+\begin{split}
+H_0: \beta_1 = \beta_2 =\beta_3 =0\\
+H_1: the \ least \ one \ \beta \ is \ not \ zero\\
+F = \frac{MSR}{MSE}=\frac{3040.155}{101.1629}=30.05208 \\
+F(1-\alpha;p,n-p-1) = 2.816466
+\end{split}
+$$
+
+```{r}
+fit_1 = lm(safisfaction~age + severity + anxiety, data = pat_satisfaction)
+anova(fit_1)
+MSR = sum(anova(fit_1)[1:3, 'Sum Sq'])/3
+MSE = anova(fit_1)['Residuals', 'Mean Sq']
+F_stats = MSR/MSE
+qf(0.95,3,44)
+summary(fit_1)
+```
+For the F statistics, we got `r F_stats` which is greater than the F critical value (`r qf(0.95,3,44)`). Hence we reject the null hypothesis and conclude that at significance level of 0.05, there are some predictors are nonzero.
+
+
+
+
+
+
+
+
